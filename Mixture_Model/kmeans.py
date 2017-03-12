@@ -27,7 +27,7 @@ def main():
         description='find kmeans in data'
     )
 
-    parser.add_argument('--path', default='/home/data/ml/mnist',
+    parser.add_argument('--path', default='../MNIST',
                         help='path to the mnist data')
 
     parser.add_argument('--k', default=10, type=int,
