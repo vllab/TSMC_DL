@@ -1,6 +1,8 @@
 # TSMC_DL
 TSMC course materials of deep learning.
 
+[Course slides](TSMC_DL/unsupervised-learning.pdf)
+
 ## PCA and tSne for visualization
 [Neural network for MNIST and embedding visualization](TSMC_DL/MNIST_nn_embedding.ipynb)
 
