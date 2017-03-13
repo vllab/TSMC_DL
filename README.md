@@ -3,6 +3,24 @@ TSMC course materials of deep learning.
 
 [Course slides](TSMC_DL/unsupervised-learning.pdf)
 
+## Mixture Model
+Use BMM or GMM to fit MNIST dataset (handwritten digits), and then use the trained model to perform classification tasks.
+
+[Demo_BMM.ipynb](Mixture_Model/Demo_BMM.ipynb) demos how to use Bernoalli mixture model.  
+[Demo_GMM.ipynb](Mixture_Model/Demo_GMM.ipynb) demos how to use Gaussian mixture model.  
+
+Please refer to [mixture.py](Mixture_Model/mixture.py), [bmm.py](Mixture_Model/bmm.py), [gmm.py](Mixture_Model/gmm.py)
+for detailed implementations.
+
+[kmeans.py](Mixture_Model/kmeans.py) perform kmeans clustering on MNIST dataset.
+```
+python kmeans.py --path=[Path to MNIST dataset directory. Default to "../MNIST".]
+                 --k=[Number of cluster center. Default to 10.]
+                 --output=[File path to save cluster centers. Default to "kmeans.dat".]
+                 --verbose=[True | False. Default to False.]
+```
+**Note: Use python3 to run the code.**
+
 ## PCA and tSne for visualization
 [Neural network for MNIST and embedding visualization](TSMC_DL/MNIST_nn_embedding.ipynb)
 
