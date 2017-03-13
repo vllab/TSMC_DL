@@ -7,6 +7,7 @@ TSMC course materials of deep learning.
 ```
 sudo pip3 install -r requirements.txt
 ```
+[requirements.txt](TSMC_DL/requirements.txt)
 
 ## Mixture Model
 Use BMM or GMM to fit MNIST dataset (handwritten digits), and then use the trained model to perform classification tasks.
