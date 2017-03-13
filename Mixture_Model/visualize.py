@@ -16,7 +16,7 @@ def plot_means(means):
     for i, ax in enumerate(axes):
         if i >= k:
                 break
-        im = ax.imshow(np.reshape(means[i], (28,28)), vmin=0, vmax=1)
+        im = ax.imshow(np.reshape(means[i], (28,28)), vmin=0, vmax=1, cmap='jet')
         ax.axis('off')
     plt.show()            
             
