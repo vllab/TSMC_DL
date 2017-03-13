@@ -1,0 +1,4 @@
+model_checkpoint_path: "dae-29"
+all_model_checkpoint_paths: "dae-10"
+all_model_checkpoint_paths: "dae-20"
+all_model_checkpoint_paths: "dae-29"
