@@ -3,6 +3,11 @@ TSMC course materials of deep learning.
 
 [Course slides](TSMC_DL/unsupervised-learning.pdf)
 
+## Prerequisite
+```
+sudo pip3 install -r requirements.txt
+```
+
 ## Mixture Model
 Use BMM or GMM to fit MNIST dataset (handwritten digits), and then use the trained model to perform classification tasks.
 
@@ -23,6 +28,20 @@ python kmeans.py --path=[Path to MNIST dataset directory. Default to "../MNIST".
 
 ## PCA and tSne for visualization
 [Neural network for MNIST and embedding visualization](TSMC_DL/MNIST_nn_embedding.ipynb)
+
+### How to start a tensorboard
+
+In your code:
+
+```python
+tf.summary.FileWriter('your path to log dir', ...)
+```
+
+tensorboard command:
+
+```
+tensorboard --logdir <your path to log dir> --port <your port (defalut:6006)>
+```
 
 In this notebook, we show how to train a neural network to do multiple-class classification in MNIST dataset.
 Since the url in tesorflow example is broken, please download the dataset from [here](http://yann.lecun.com/exdb/mnist/).
