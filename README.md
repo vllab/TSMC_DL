@@ -76,3 +76,4 @@ In this section, we demonstrate that sparsity constrain leads to sparse feature 
 [Denoising Autoencoder](TSMC_DL/MNIST_Dae_Dropout.ipynb)
 
 This is a simple example of denoising autoencoder on MNIST dataset.
+Pretrained weights are put in [net_pretrained/dae](net_pretrained/dae)
