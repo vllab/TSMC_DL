@@ -16,12 +16,14 @@ def lrelu(input, alpha=0.2, max_value=None, name=None):
 
 
 class Discriminator():
-    def __init__(self, depth=4, f_num_init=64, k_size=5, stride=2, is_training=True):
+    def __init__(self, depth=4, f_num_init=64, k_size=5, stride=2, is_training=True,
+                 weights_initializer=tcl.xavier_initializer()):
         self.depth = depth              # how many conv layers to use
         self.f_num_init = f_num_init    # initial conv filter num of discriminator
         self.k_size = k_size            # conv kernel size
         self.stride = stride            # conv stride size
         self.is_training = is_training  # batch normalization has different behaviors in training and testing
+        self.weights_initializer = weights_initializer
 
     def __call__(self, input, model_name=None, reuse=False):
         if not model_name: 
@@ -56,7 +58,8 @@ class Discriminator():
         with tcf.arg_scope([tcl.conv2d],
                            kernel_size=self.k_size,
                            stride=self.stride, 
-                           activation_fn=lrelu):
+                           activation_fn=lrelu,
+                           weights_initializer=self.weights_initializer):
             # convolution layer
             x = tcl.conv2d(x, f_num)
             for i in range(1, self.depth):
@@ -67,14 +70,15 @@ class Discriminator():
         # reshape matrix to a vector
         x = tcl.flatten(x)
         # linear (fully connected) layer: W*x + b
-        self.logit = tcl.linear(x, 1)
+        self.logit = tcl.linear(x, 1, weights_initializer=self.weights_initializer)
         self.output = tf.nn.sigmoid(self.logit)
         
         return self.output, self.logit
 
 
 class Generator():
-    def __init__(self, h_out, w_out, depth=4, f_num_init=512, k_size=5, stride=2, c_dim=3, is_training=True):
+    def __init__(self, h_out, w_out, depth=4, f_num_init=512, k_size=5, stride=2, c_dim=3, is_training=True, 
+                 weights_initializer=tcl.xavier_initializer()):
         self.h_out = h_out     # height of output image
         self.w_out = w_out     # width of output image
         self.c_dim = c_dim     # number of color channel
@@ -83,6 +87,7 @@ class Generator():
         self.stride = stride
         self.f_num_init = f_num_init
         self.is_training = is_training
+        self.weights_initializer = weights_initializer
 
     def __call__(self, input, model_name=None, reuse=False):
         if not model_name:
@@ -123,8 +128,8 @@ class Generator():
             h_num * w_num * f_num,
             normalizer_fn=tcl.batch_norm,
             normalizer_params=bn_params,
-            activation_fn=tf.nn.relu)
-            #weights_initializer=tf.random_normal_initializer(stddev=0.02))
+            activation_fn=tf.nn.relu,
+            weights_initializer=self.weights_initializer)
         
         # and reshape it to a 4-D tensor
         x = tf.reshape(x, [-1, h_num, w_num, f_num])
@@ -134,8 +139,8 @@ class Generator():
                            stride=self.stride,
                            normalizer_fn=tcl.batch_norm,
                            normalizer_params=bn_params,
-                           activation_fn=tf.nn.relu):
-                           #weights_initializer=tf.random_normal_initializer(stddev=0.02)):
+                           activation_fn=tf.nn.relu,
+                           weights_initializer=self.weights_initializer):
             for i in range(self.depth-1):
                 f_num //= 2
                 x = tcl.conv2d_transpose(x, f_num)

@@ -9,25 +9,32 @@ from models import Discriminator, Generator
 from image_utils import save_images
 
 class DCGAN():
-    def __init__(self, F, global_step):
+    def __init__(self, F, weights_initializer=tcl.xavier_initializer(), regularizer=None):
         '''
         Args:
           F: Contain the parameters(FLAGS) for setting the model
         '''
         self.F = F
-        self.D = Discriminator(is_training=F.is_training)
-        self.G = Generator(F.output_height, F.output_width, is_training=F.is_training)
+        self.weights_initializer = weights_initializer
+        self.regularizer = regularizer
+        self.D = Discriminator(is_training=F.is_training,
+                               weights_initializer=weights_initializer)
+        self.G = Generator(F.output_height, F.output_width,
+                           is_training=F.is_training,
+                           weights_initializer=weights_initializer)
         if F.is_training:
             self.epoch_id = 1
             self.batch_id = 1
             
-            # We expect no remainder after each epoch,
-            # to make the calculated `batch_id` precise
+            # We expect no remainders, to make the calculated `batch_id` precise
             self.n_batch = F.train_size // F.batch_size  
             
             # width param to format verbose information
             self.batch_width = len(str(self.n_batch))
-            self.step_width = len(str(F.epoch * self.n_batch * (F.d_step + F.g_step)))
+            if F.training_strategy == 1:
+                self.step_width = len(str(F.epoch * self.n_batch * (1 + F.g_step / F.d_step)))
+            elif F.training_strategy == 2:
+                self.step_width = len(str(F.epoch * self.n_batch * (F.d_step + F.g_step)))
     
     def __call__(self, input, model_name=None, reuse=False):
         if not model_name:
@@ -93,9 +100,12 @@ class DCGAN():
         g_loss_fake = tf.reduce_mean(
             tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.ones_like(d_out_fake),
                                                     logits=d_logit_fake))
-        # Note that last terms of `d_loss` and `g_loss` are adversarial
-        self.d_loss = d_loss_real + d_loss_fake
-        self.g_loss = g_loss_fake
+        
+        d_reg_loss = tcl.apply_regularization(self.regularizer, weights_list=self.D.vars_train)
+        g_reg_loss = tcl.apply_regularization(self.regularizer, weights_list=self.G.vars_train)
+        
+        self.d_loss = d_loss_real + d_loss_fake + d_reg_loss
+        self.g_loss = g_loss_fake + g_reg_loss
         
         ########################
         # (3) Define optimizer #
@@ -133,13 +143,24 @@ class DCGAN():
         F = self.F
         for i in range(F.d_step):
             _= sess.run([self.d_train_op], feed_dict=feed_dict)
+            
+            if F.training_strategy == 1:
+                # increase batch_id and maybe epoch_id
+                self.batch_id += 1
+                if self.batch_id > self.n_batch:
+                    self.batch_id = 1
+                    self.epoch_id += 1
+        
         for i in range(F.g_step):
             _ = sess.run([self.g_train_op], feed_dict=feed_dict)
-        self.batch_id += 1
-        if self.batch_id > self.n_batch:
-            self.batch_id = 1
-            self.epoch_id += 1
-    
+            
+        if F.training_strategy == 2:
+            # increase batch_id and maybe epoch_id
+            self.batch_id += 1
+            if self.batch_id > self.n_batch:
+                self.batch_id = 1
+                self.epoch_id += 1
+
 
 class SampleImageHook(tf.train.SessionRunHook):
     def __init__(self, model, sample_img, img_path, every_n_iter=None, every_n_secs=None):
