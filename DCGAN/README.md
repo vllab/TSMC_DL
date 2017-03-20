@@ -23,5 +23,7 @@ python main.py --training_strategy=2 --g_step=2
 Not implement yet. Leave for you to exercise.
 
 ## Training Process Visualization
+- Strategy1
 ![Strategy1](strategy1_training.gif)
+- Strategy2
 ![Strategy2](strategy2_training.gif)
