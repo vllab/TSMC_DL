@@ -3,7 +3,7 @@
 ## Dataset
 We test this code on `celebA`.
 - Download celebA dataset
-(use the [donwload.py](DCGAN/download.py) script borrowed from [carpedm20](https://github.com/carpedm20/DCGAN-tensorflow/download.py))
+(use the [donwload.py](download.py) script borrowed from [carpedm20](https://github.com/carpedm20/DCGAN-tensorflow/download.py))
 ```bash
 python download.py celebA
 ```
