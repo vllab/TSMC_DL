@@ -21,3 +21,7 @@ python main.py --training_strategy=2 --g_step=2
 
 ## Testing
 Not implement yet. Leave for you to exercise.
+
+## Training Process Visualization
+![Strategy1](strategy1_training.gif)
+![Strategy2](strategy2_training.gif)
