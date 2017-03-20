@@ -24,6 +24,9 @@ Not implement yet. Leave for you to exercise.
 
 ## Training Process Visualization
 - Strategy1
-![Strategy1](strategy1_training.gif)
+
+  ![Strategy1](strategy1_training.gif)
+
 - Strategy2
-![Strategy2](strategy2_training.gif)
+
+  ![Strategy2](strategy2_training.gif)
