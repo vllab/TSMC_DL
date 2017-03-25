@@ -146,7 +146,10 @@ def train():
             Because we don't want `im_gt_batch.eval()`
             to trigger callback to the hooks defined afterwards. 
             '''
-            sess_data = tf.Session()
+            gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0,
+                                        visible_device_list="")
+            config = tf.ConfigProto(gpu_options=gpu_options)
+            sess_data = tf.Session(config=config)
             tf.local_variables_initializer().run(session=sess_data)
             coord = tf.train.Coordinator()
             threads = tf.train.start_queue_runners(sess=sess_data, coord=coord)
