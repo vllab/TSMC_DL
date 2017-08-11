@@ -1,7 +1,7 @@
 # TSMC_DL
 TSMC course materials of deep learning.
 
-[Course slides](TSMC_DL/unsupervised-learning.pdf)
+[Course slides](unsupervised-learning.pdf)
 
 ## Prerequisite
 Setup your python environment.
@@ -9,7 +9,7 @@ We recommend to use python3.
 ```
 sudo pip3 install -r requirements.txt
 ```
-[requirements.txt](TSMC_DL/requirements.txt)
+[requirements.txt](requirements.txt)
 
 ## Mixture Model
 Use BMM or GMM to fit MNIST dataset (handwritten digits), and then use the trained model to perform classification tasks.
