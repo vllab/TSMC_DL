@@ -30,7 +30,7 @@ python kmeans.py --path=[Path to MNIST dataset directory. Default to "../MNIST".
 **Note: Use python3 to run the code.**
 
 ## PCA and tSne for visualization
-[Neural network for MNIST and embedding visualization](TSMC_DL/MNIST_nn_embedding.ipynb)
+[Neural network for MNIST and embedding visualization](MNIST_nn_embedding.ipynb)
 
 ### How to start a tensorboard
 
@@ -68,12 +68,12 @@ parser.add_argument('--save_log', type=bool, default=False, # here!
                     help='Whether save log file or not')
 ```
 ## Sparse Coding
-[Sparse coding using neural network](TSMC_DL/Sparse_Coding.ipynb)
+[Sparse coding using neural network](Sparse_Coding.ipynb)
 
 In this section, we demonstrate that sparsity constrain leads to sparse feature while training. 
 
 ## Denoising Autoencoder
-[Denoising Autoencoder](TSMC_DL/MNIST_Dae_Dropout.ipynb)
+[Denoising Autoencoder](MNIST_Dae_Dropout.ipynb)
 
 This is a simple example of denoising autoencoder on MNIST dataset.
 Pretrained weights are put in [net_pretrained/dae](net_pretrained/dae)
